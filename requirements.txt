@@ -1,0 +1,7 @@
+numpy
+scipy
+torch>=1.0
+torchvision
+seaborn>=0.9
+matplotlib
+sklearn
