@@ -1,4 +1,4 @@
-# [Poincaré Variational Auto-Encoders](https://arxiv.org/abs/1901.06033)
+# [Hierarchal Representations with Poincaré Variational Auto-Encoders](https://arxiv.org/abs/1901.06033)
 
 ## Prerequisites
 Modules in `requirements.txt`.
