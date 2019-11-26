@@ -1,11 +1,11 @@
 import math
-import numpy as np
 import torch
 from torch.autograd import Function, grad
 import torch.distributions as dist
 from pvae.utils import Constants, logsinh, log_sum_exp_signs, rexpand
 from numbers import Number
 from pvae.distributions.ars import ARS
+
 
 def cdf_r(value, scale, c, dim):
     value = value.double()
@@ -42,6 +42,7 @@ def cdf_r(value, scale, c, dim):
         zero_value_idx = value == 0.
         output[zero_value_idx] = 0.
         return output.float()
+
 
 def grad_cdf_value_scale(value, scale, c, dim):
     device = value.device
@@ -95,6 +96,7 @@ def grad_cdf_value_scale(value, scale, c, dim):
 
     grad_value = (log_unormalised_prob.float() - logZ).exp()
     return grad_value, grad_scale
+
 
 class _log_normalizer_closed_grad(Function):
     @staticmethod 
@@ -201,10 +203,6 @@ class HyperbolicRadius(dist.Distribution):
             stddev = self.stddev
             if torch.isnan(stddev).any(): stddev[torch.isnan(stddev)] = self.scale[torch.isnan(stddev)]
             if torch.isnan(mean).any(): mean[torch.isnan(mean)] = ((self.dim - 1) * self.scale.pow(2) * self.c.sqrt())[torch.isnan(mean)]
-            # if torch.isnan(mean).any() or torch.isinf(mean).any():
-                # mean = torch.clamp((self.dim - 1) * self.scale.pow(2) * self.c.sqrt(), min=1)
-            # steps = torch.linspace(0.01, .95, 10).to(self.device)
-            # steps = torch.cat((-steps.flip(0), steps))
             steps = torch.linspace(0.1, 3, 10).to(self.device)
             steps = torch.cat((-steps.flip(0), steps))
             xi = [mean + s * torch.min(stddev, .95 * mean / 3) for s in steps]

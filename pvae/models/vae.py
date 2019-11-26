@@ -17,8 +17,8 @@ class VAE(nn.Module):
         self.dec = dec
         self.modelName = None
         self.params = params
-        self.data_dim = params.data_dim
-        self.prior_std_scale = params.prior_std_scale
+        self.data_size = params.data_size
+        self.prior_std = params.prior_std
 
         if self.px_z == dist.RelaxedBernoulli:
             self.px_z.log_prob = lambda self, value: \

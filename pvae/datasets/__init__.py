@@ -1,5 +1,1 @@
-from .datasets import SyntheticDataset
-
-__all__ = [
-		   'SyntheticDataset',
-           ]
+from .datasets import *

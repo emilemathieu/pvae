@@ -84,7 +84,7 @@ class ARS():
             # Accept sample?
             u = torch.rand(shape).to(self.device)
             accept = u < torch.exp(ht - ut)
-            reject = 1 - accept
+            reject = ~accept
             samples[bool_mask * accept] = xt[bool_mask * accept]
             bool_mask[bool_mask * accept] = reject[bool_mask * accept]
             # Update hull with new function evaluations

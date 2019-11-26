@@ -1,15 +1,15 @@
 import matplotlib.pyplot as plt
-import math
 import numpy as np
 import seaborn as sns
 from scipy.optimize import minimize_scalar
 import torch
-from torch.autograd import Function, grad
+from torch.autograd import grad
 import unittest
-from pvae.utils import Constants, rexpand
+from pvae.utils import rexpand
 from pvae.distributions.hyperbolic_radius import HyperbolicRadius, cdf_r
 
 colors = sns.color_palette("hls", 8)
+
 
 class TestHyperbolicRadius(unittest.TestCase):
     _multiprocess_can_split_ = True

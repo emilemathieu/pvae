@@ -1,6 +1,33 @@
 import torch
 import torch.utils.data
 import numpy as np
+from csv import reader
+
+
+def load_csv(filename):
+    file = open(filename, "r")
+    lines = reader(file)
+    dataset = list(lines)
+    return dataset
+
+
+class CSVDataset(torch.utils.data.Dataset):
+    def __init__(self, csv_name):
+        filename = 'data/{}.csv'.format(csv_name)
+        dataset = np.array(load_csv(filename))
+        dataset = dataset[1:, :]
+        self.images = dataset[:, 0:-1].astype(np.float)
+        self.latents = dataset[:, [-1]]
+        self.latents = self.latents.astype(np.int)
+
+    def __len__(self):
+        return len(self.images)
+
+    def __getitem__(self, idx):
+        image = torch.Tensor(self.images[idx, :])
+        latent = torch.Tensor(self.latents[idx])
+        return (image, latent)
+
 
 class SyntheticDataset(torch.utils.data.Dataset):
     '''
